@@ -1,47 +1,40 @@
-import { player } from './player.js';
-import { addNewsletter } from './newsletter.js';
-import { renderUpgrades } from './upgrades.js';
-import { makeDeckEntryFromUpgrade } from "./macaicos.js";
-
+import { addNewsletter } from "./newsletter";
 export const deckJogador = [];
-export const maxDeckSlots = 6;
 export let deckDesbloqueado = false;
+const maxDeckSlots = 6;
 
 export function syncDeckVisibility() {
     const deckEl = document.getElementById("deck-container");
     if (!deckEl) return;
 
-    if (deckDesbloqueado) deckEl.classList.remove("hidden-grid");
-    else deckEl.classList.add("hidden-grid");
-}
-
-export function syncUpgradeButton() {
-    const btn = document.getElementById("toggle-upgrades");
-    const upgradeMenu = document.getElementById("upgrade-menu");
-
     if (deckDesbloqueado) {
-        btn.classList.remove("locked");
-        upgradeMenu.classList.add("hidden");
+        deckEl.classList.remove("hidden-grid"); // mostra deck
     } else {
-        btn.classList.add("locked");
-        upgradeMenu.classList.add("hidden");
+        deckEl.classList.add("hidden-grid"); // esconde deck
     }
 }
 
-export function syncUIFromState() {
-    syncUpgradeButton();
-    syncDeckVisibility();
-}
-
 export function checarDesbloqueioDeck() {
+
     if (!deckDesbloqueado && player.bananas >= 2) {
         deckDesbloqueado = true;
-        addNewsletter("Parabéns! Você desbloqueou seu deck de macaicos. Compre seu primeiro amigo primata!");
+        addNewsletter("Parabéns! Você desbloqueou seu deck de macaicos. Compre seu primeiro amigo primata!")
+
         syncUIFromState();
         renderDeck();
         renderUpgrades();
         saveGame();
     }
+
+}
+
+export function adicionarMacaicoAodeck(macaico) {
+    if (deckJogador.length < maxDeckSlots) {
+        deckJogador.push(macaico);
+    } else {
+        addNewsletter("O deck está cheio! Não é possível adicionar mais macaicos.");
+    }
+    renderDeck();
 }
 
 export function renderDeck() {
@@ -54,17 +47,13 @@ export function renderDeck() {
         slot.classList.add("deck-slot");
 
         const macaico = deckJogador[i];
-        slot.textContent = macaico ? `${macaico.name} (${macaico.raridade})` : "Vazio";
+        if (macaico) {
+            slot.textContent = `${macaico.name} (${macaico.raridade})`;
+        } else {
+            slot.textContent = "Vazio";
+        }
 
         container.appendChild(slot);
     }
 }
 
-export function adicionarMacaicoAodeck(upgradeObj) {
-    if (deckJogador.length < maxDeckSlots) {
-        deckJogador.push(makeDeckEntryFromUpgrade(upgradeObj));
-    } else {
-        addNewsletter("O deck está cheio! Não é possível adicionar mais macaicos.");
-    }
-    renderDeck();
-}
