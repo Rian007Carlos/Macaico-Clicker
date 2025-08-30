@@ -1,4 +1,4 @@
-import { player } from "../js/player.js"
+import { player } from "./js/player.js"
 
 // ======= Inicialização =======
 loadGame();
