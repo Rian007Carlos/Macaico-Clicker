@@ -1,4 +1,4 @@
-import { player } from "./player";
+import { player } from "/js/player.js";
 
 // ======= Deck do jogador =======
 
