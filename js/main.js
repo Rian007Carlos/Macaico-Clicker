@@ -1,4 +1,8 @@
-import { player } from "./js/player.js"
+
+import { loadGame, saveGame } from './gameState.js';
+import { updateBananaDisplay, renderUpgrades } from './ui.js';
+import { autoCollect } from './autoCollect.js';
+
 
 // ======= Inicialização =======
 loadGame();

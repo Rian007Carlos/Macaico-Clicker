@@ -1,31 +1,43 @@
+// js/save.js
+import { player } from "./player.js";
+import { upgrades } from "./upgrades.js";
+import { deckJogador, renderDeck } from "./deck.js";
+import { syncUIFromState, renderUpgrades, updateBananaDisplay } from "./ui.js";
 
-import { player } from './player.js';
-import { upgrades } from './upgrades.js';
-import { deckJogador, deckDesbloqueado } from './deck.js';
-import { syncUIFromState, renderDeck, renderUpgrades, updateBananaDisplay, renderNewsletter } from './ui.js';
-import { newsletterQueue } from './newsletter.js';
 
+// estado global de desbloqueio
+import { deckDesbloqueado, setDeckDesbloqueado } from "./state.js";
+import { newsletterQueue } from "./newsletter.js";
+
+// ======= Local Storage =======
 export function saveGame() {
     const saveData = {
         player: { ...player },
-        upgrades: upgrades.map(u => ({ name: u.name, amount: u.amount, cost: u.cost })),
+        upgrades: upgrades.map(u => ({
+            name: u.name,
+            amount: u.amount,
+            cost: u.cost
+        })),
         deckJogador: deckJogador.map(m => ({
             name: m.name,
             raridade: m.raridade
         })),
         deckDesbloqueado
     };
-    localStorage.setItem('macaicoClickerSave', JSON.stringify(saveData));
+
+    localStorage.setItem("macaicoClickerSave", JSON.stringify(saveData));
 }
+
 export function loadGame() {
-    const saved = localStorage.getItem('macaicoClickerSave');
+    const saved = localStorage.getItem("macaicoClickerSave");
     if (!saved) return;
 
     const saveData = JSON.parse(saved);
-    //player
+
+    // player
     Object.assign(player, saveData.player || {});
 
-    //upgrades
+    // upgrades
     if (Array.isArray(saveData.upgrades)) {
         saveData.upgrades.forEach(savedUpg => {
             const upg = upgrades.find(u => u.name === savedUpg.name);
@@ -47,43 +59,40 @@ export function loadGame() {
                     raridade: m.raridade
                 });
             }
-        })
+        });
     }
 
     // flag de desbloqueio
-    deckDesbloqueado = !!saveData.deckDesbloqueado;
+    setDeckDesbloqueado(!!saveData.deckDesbloqueado);
 
     // >>> MUITO IMPORTANTE: sincronizar UI SEM MEXER EM innerHTML
     syncUIFromState();
-
-    // Render básico
     renderDeck();
     renderUpgrades();
     updateBananaDisplay();
-
 }
 
-// ======= Reset do jogo =======
-document.getElementById('reset-game').addEventListener('click', () => {
+export function resetGame() {
     if (confirm("Tem certeza que quer resetar o jogo?")) {
-        localStorage.removeItem('macaicoClickerSave');
+        localStorage.removeItem("macaicoClickerSave");
+
+        // estado
         player.bananas = 0;
         player.clickMultiplier = 1;
 
         upgrades.forEach(u => {
             u.amount = 0;
-            u.cost = u.baseCost
+            u.cost = u.baseCost;
         });
 
         deckJogador.length = 0;
-        deckDesbloqueado = false;
+        setDeckDesbloqueado(false);
 
         // UI + feedback
         newsletterQueue.length = 0;
-
         syncUIFromState();
         renderNewsletter();
         updateBananaDisplay();
         renderUpgrades();
     }
-});
+}

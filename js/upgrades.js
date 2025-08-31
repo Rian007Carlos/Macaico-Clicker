@@ -1,8 +1,13 @@
-import { macaicoDescriptions } from "./macaicos";
-import { formatNumber } from "./utils";
-import { addNewsletter } from "./newsletter";
+import { player } from './player.js';
+import { macaicoDescriptions } from './macaicos.js';
+import { adicionarMacaicoAodeck, deckDesbloqueado } from './deck.js';
+import { addNewsletter } from './newsletter.js';
+import { saveGame } from './gameState.js';
+import { formatNumber } from './utils.js';
+import { renderUpgrades as renderUpgradesUI, updateBananaDisplay } from './ui.js';
 
-const upgrades = [
+
+export const upgrades = [
     //(name, bps, cost, baseEffect)
     new Upgrade("Macaico da Selva", 1, 10, 1, [{ value: 1, triggered: false, action: () => addNewsletter("Você desbloqueou um macaico novo!", "normal") }]),
     new Upgrade("Macaico Bombado", 50, 100, 5),
@@ -14,7 +19,7 @@ const upgrades = [
     new Upgrade("Macaico Místico", 10000, 1000000000, 1000),
 ]
 
-class Upgrade {
+export class Upgrade {
     constructor(name, bps, cost, baseEffect, spectialThresholds = []) {
         this.name = name;
         this.bps = bps;
@@ -64,7 +69,7 @@ class Upgrade {
 }
 
 
-function renderUpgrades() {
+export function renderUpgrades() {
     const menu = document.getElementById('upgrade-menu');
     menu.innerHTML = '';
 

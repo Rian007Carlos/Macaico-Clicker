@@ -1,4 +1,4 @@
-function createCard({ title, lines, description, buttonText, buttonAction }) {
+export function createCard({ title, lines, description, buttonText, buttonAction }) {
     const card = document.createElement('div');
     card.classList.add('upgrade-card');
 

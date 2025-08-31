@@ -1,8 +1,8 @@
 import { addNewsletter } from "./newsletter";
 
-const researches = []
+export const researches = []
 
-class BananaResearch {
+export class BananaResearch {
     constructor(name, duration, onComplete) {
         this.name = name;
         this.timer = 0

@@ -1,6 +1,8 @@
-import { addNewsletter } from "./newsletter";
+import { player } from './player.js';
+import { addNewsletter } from './newsletter.js';
+import { updateBananaDisplay } from './ui.js';
 
-const shopCategories = {
+export const shopCategories = {
     common: {
         cost: 100,
         macaicos: [
@@ -19,7 +21,7 @@ const shopCategories = {
     // épico, lendário, etc depois
 };
 
-function renderStoreCategories() {
+export function renderStoreCategories() {
     const container = document.getElementById('store-categories');
     container.innerHTML = '';
 
@@ -60,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function buyPack(rarity) {
+export function buyPack(rarity) {
     const pack = shopCategories[rarity];
     if (!pack) return;
 
@@ -88,7 +90,7 @@ function buyPack(rarity) {
     showCardReveal(macaico);
 }
 
-function showCardReveal(macaico) {
+export function showCardReveal(macaico) {
     const popupContainer = document.getElementById("popup-container");
 
     const card = document.createElement("div");

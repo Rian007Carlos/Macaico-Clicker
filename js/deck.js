@@ -1,4 +1,9 @@
 import { addNewsletter } from "./newsletter";
+import { syncUIFromState } from "./ui";
+import { renderUpgrades } from "./upgrades";
+import { saveGame } from "./gameState";
+import { player } from "./player";
+
 export const deckJogador = [];
 export let deckDesbloqueado = false;
 const maxDeckSlots = 6;
