@@ -661,10 +661,8 @@ bananaEl.addEventListener('click', () => {
 document.querySelectorAll("[id^='toggle-']").forEach(btn => {
     btn.addEventListener("click", () => {
         // Se o botão estiver bloqueado, não faz nada (feedback opcional)
-        if (btn.classList.contains("locked")) {
-            addNewsletter("Colete 100 bananas e algo legal pode acontecer!");
-            return;
-        }
+        
+    
 
         const targetId = btn.dataset.target;
         const targetEl = document.getElementById(targetId);
