@@ -208,7 +208,7 @@ function runFunnyNews() {
     if (funnyRunning || funnyQueue.length === 0) return;
 
     funnyRunning = true;
-    const funnyNews = document.getElementById("funny-news");
+    const funnyNews = document.getElementById("newsletter");
 
     const span = document.createElement("span");
     span.textContent = funnyQueue.shift();

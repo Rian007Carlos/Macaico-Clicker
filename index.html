@@ -7,507 +7,28 @@
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.3/css/all.min.css" />
     <!-- Font Awesome Free via CDN -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hanalei+Fill&display=swap"
-        rel="stylesheet">
-    <link rel="icon" href="assets/android-chrome-192x192.png" type="image/x-icon">
+    <link rel="icon" href="assets/favicon/android-chrome-192x192.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/backgrounds.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <link rel="stylesheet" href="css/grid-def.css">
+    <link rel="stylesheet" href="css/banana.css">
+    <link rel="stylesheet" href="css/menu-config.css">
+    <link rel="stylesheet" href="css/deck.css">
+    <link rel="stylesheet" href="css/store.css">
+    <link rel="stylesheet" href="css/toggle-menus.css">
+    <link rel="stylesheet" href="css/upgrade-menu.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="css/popups.css">
+    <link rel="stylesheet" href="css/newsletter.css">
 
 
     <title>Macaico Clicker</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Unkempt:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Rubik+Bubbles&display=swap');
 
 
-        /* *:hover {
-            outline: 2px solid white;
-        } */
-        /* =====================
-   RESET E GLOBAL
-===================== */
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            font-family: "Unkempt", cursive;
-            color: rgb(255, 255, 255);
-            text-shadow: 1px 1px 4px black;
-        }
 
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        img {
-            width: 100%;
-        }
-
-        /* =====================
-   ESTRUTURA PRINCIPAL
-===================== */
-        #game {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .scenario {
-            position: fixed;
-            z-index: -1;
-        }
-
-        .scenario img {
-            width: 100%;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(11, 1fr);
-            grid-template-rows: 50px 50px repeat(8, 100px);
-            gap: 10px;
-            height: 100vh;
-            padding: 10px;
-            box-sizing: border-box;
-            backdrop-filter: blur(4px);
-        }
-
-        .sidebar-left,
-        .main-center,
-        .sidebar-right,
-        .sidebar-bottom,
-        .menu {
-            display: flex;
-        }
-
-        .sidebar-left {
-            grid-column: 1 / 3;
-            grid-row: 2;
-            flex-direction: column;
-            gap: 1em;
-        }
-
-        .main-center {
-            grid-column: 6 / 9;
-            grid-row: 4 / 7;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sidebar-right {
-            grid-column: -2;
-            grid-row: 3 / 8;
-            overflow-y: auto;
-            padding-right: 1em;
-            height: 100%;
-        }
-
-        .sidebar-bottom {
-            grid-column: 4 / 9;
-            grid-row: 8 / 10;
-        }
-
-        .menu {
-            grid-column: 11;
-            grid-row: 2;
-            justify-content: flex-end;
-            gap: 1em;
-        }
-
-        .ui-config {
-            grid-column: 11;
-            place-self: end;
-
-        }
-
-        .deck-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            /* 3 colunas */
-            gap: 10px;
-        }
-
-        .deck-slot {
-            /* background-color: #f0e68c; */
-            background-image: url(assets/icons/card.png);
-            background-size: 300%;
-            background-position: center;
-            background-clip: border-box;
-            border: 5px solid #8b461b83;
-            border-radius: 8px;
-            width: 130px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* =====================
-   TEXTOS E TÍTULOS
-===================== */
-        .game-title {
-            grid-column: 1;
-            grid-row: 1 / 2;
-            text-align: center;
-            font-size: 1.4em;
-            margin-bottom: 10px;
-            font-family: "Rubik Bubbles", system-ui;
-            color: #ff924c;
-        }
-
-        /* ===== Funny News (ticker) ===== */
-        .funny-news {
-            grid-column: 1 / 13;
-            grid-row: 10;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            font-size: 14px;
-            padding: 5px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            z-index: 1;
-        }
-
-        .funny-news span {
-            display: inline-block;
-            padding-left: 100%;
-            animation: scroll-left 12s linear infinite;
-        }
-
-        @keyframes scroll-left {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(-100%);
-            }
-        }
-
-        /* ===== Popups ===== */
-        .popup-container {
-            position: fixed;
-            text-shadow: none;
-            top: 20px;
-            right: 40vw;
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .popup {
-            background: #eece02;
-            color: black;
-            font-size: 1.2em;
-            border: 2px solid #333;
-            padding: 12px 16px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            min-width: 200px;
-            max-width: 280px;
-            position: relative;
-            animation: fadeIn 0.3s ease;
-            font-weight: 600;
-        }
-
-        .popup button {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            border: none;
-            background: transparent;
-            font-size: 1.4em;
-            cursor: pointer;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-
-        /* =====================
-   ITENS E CARDS
-===================== */
-        .items {
-            width: 300px;
-            height: 400px;
-            padding: 10px;
-        }
-
-        .items .bananas,
-        .card,
-        .banana {
-            display: flex;
-        }
-
-        .banana {
-            align-items: center;
-        }
-
-        #banana-count {
-            font-size: 3em;
-
-        }
-
-        .card {
-            margin: 0 auto;
-            justify-content: center;
-            position: relative;
-        }
-
-        .card p {
-            font-size: 2em;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        #banana {
-            background: transparent;
-            border: none;
-            height: 50%;
-        }
-
-        #banana img,
-        .banana img {
-            display: block;
-            height: 100%;
-        }
-
-        .banana img {
-            width: auto;
-            height: 100px;
-        }
-
-        #banana-info {
-            display: flex;
-            flex-direction: column;
-            font-size: 1.3em;
-        }
-
-        /* =====================
-   UPGRADES E MENUS
-===================== */
-
-        .full-screen-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(20, 20, 20, 0.95);
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: start;
-            padding: 2rem;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 10rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        #upgrade-menu {
-            display: flex;
-            height: 100%;
-            flex-direction: column;
-            justify-content: space-around;
-            gap: 1em;
-            position: relative;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        #upgrade-menu span {
-            width: 100px;
-            height: 100px;
-            background-color: rgb(47, 47, 84);
-            color: white;
-        }
-
-
-        #upgrade-menu .upgrade-card {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            justify-content: space-between;
-            padding: 1em;
-            font-size: 0.8em;
-            border: 5px solid rgb(159, 100, 236);
-            border-radius: 10px;
-            /* background-image: radial-gradient(circle, rgba(166, 63, 251, 1) 0%, rgba(91, 14, 199, 1) 100%); */
-            background-image: url(assets/epic.jpg);
-            background-repeat: no-repeat;
-            background-size: cover;
-            /* background-image: radial-gradient(circle, rgba(251, 210, 63, 1) 0%, rgba(199, 140, 14, 1) 100%); */
-            font-family: "Rubik Bubbles", system-ui;
-        }
-
-        .upgrade-card>* {
-            font-size: 1.4em;
-        }
-
-        .upgrade-info:first-child {
-            color: rgb(217, 220, 72);
-        }
-
-        .upgrade-description {
-            color: #ff924c;
-        }
-
-        .upgrade-card button,
-        #upgrade-menu button,
-        button {
-            background-color: #eece02;
-            border-radius: 8px;
-            border: none;
-            font-size: 1em;
-            width: fit-content;
-            padding: 1em;
-            color: rgb(0, 0, 0);
-        }
-
-        .upgrade-card button {
-            width: 25%;
-        }
-
-        #upgrade-menu .upgrade-card button:disabled {
-            background-color: #ff595fe8;
-            cursor: not-allowed;
-        }
-
-        .store-card {
-            background: #333;
-            color: #fff;
-            padding: 1rem;
-            margin: 1rem;
-            border-radius: 8px;
-            display: inline-block;
-            text-align: center;
-        }
-
-        /* =====================
-   BOTÕES E INTERAÇÕES
-===================== */
-        #toggle-config {
-            font-size: 1em;
-        }
-
-        #toggle-upgrades.locked::before {
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            content: "\f023";
-            /* cadeado */
-            margin-right: 6px;
-        }
-
-        #toggle-upgrades:not(.locked)::before {
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            content: "\f0ad";
-            /* engrenagem */
-            margin-right: 6px;
-        }
-
-        #toggle-store {
-            background-image: url(assets/icons/store.png);
-            background-size: 250%;
-
-        }
-
-        #toggle-config {
-            background-image: url(assets/icons/settings2.png);
-            background-position: center;
-            background-size: 150%;
-        }
-
-        .btn-menu {
-            height: 50px;
-            aspect-ratio: 1;
-            border-radius: 30%;
-            background-position: center;
-        }
-
-        #toggle-store img {
-            display: block;
-        }
-
-        /* =====================
-   UTILIDADES
-===================== */
-        .hidden {
-            visibility: hidden;
-            opacity: 0;
-            overflow: hidden;
-            transform: translate(0, -50px);
-            transition: transform .2s ease-in-out, opacity .4s ease-in-out;
-            pointer-events: none;
-        }
-
-        .hidden-grid {
-            display: none;
-        }
-
-        /* #menu-newsletter {
-            grid-column: 2 / -1;
-            grid-row: 1;
-            font-size: 1.5em;
-            background-color: rgba(0, 0, 0, 0.479);
-            border-radius: 0.4em;
-            padding: 5px;
-            width: 100%;
-            text-align: center;
-            color: #d3d602;
-            display: flex;
-            gap: 2em;
-            overflow-x: auto;
-            flex-wrap: nowrap;
-        } */
-
-        #menu-config {
-            background-color: rgba(0, 0, 0, 0.856);
-            border-radius: 2em;
-            width: 100%;
-            height: 70vh;
-            z-index: 5;
-            grid-column: 2 / 7;
-            grid-row: 3 / 3;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: transform 0.2s ease-in-out, opacity 0.4s ease-in-out;
-        }
-
-        #menu-config button {
-            margin: 0 auto;
-        }
     </style>
 </head>
 
@@ -516,91 +37,94 @@
         <div class="scenario"><img src="assets/background/Jungle-bg.png" class="scenario-selva"
                 alt=""></div>
 
+        <div class="monitor-container">
 
-        <div class="grid-container">
-            <div class="game-title">Macaico Clicker</div>
+            <div class="grid-container">
+                <div class="game-title">Macaico Clicker</div>
 
-            <div class="ui-config">
-                <button id="toggle-config" data-target="menu-config" class="btn-menu"></button>
-            </div>
-
-            <div class="menu">
-                <button id="toggle-achievements" data-target="menu-achievements"
-                    class="locked btn menu"></button>
-
-                <button id="toggle-newsletter" data-target="menu-newsletter"
-                    class="btn-menu"></button>
-
-                <button id="toggle-upgrades" data-target="menu-upgrades" class="locked"></button>
-
-
-                <button id="toggle-store" data-target="store-menu" class="btn-menu"></button>
-
-            </div>
-
-            <div id="menu-config" class="hidden">
-                <button id="reset-game">Resetar Jogo</button>
-            </div>
-            <div id="menu-achievements" class="hidden"></div>
-            <!-- <div id="menu-newsletter"></div> -->
-            <!-- Newsletter estilo "marquee" -->
-            <div id="funny-news" class="funny-news"></div>
-
-            <!-- Popups para mensagens normais -->
-            <div id="popup-container" class="popup-container"></div>
-
-            <!-- Loja -->
-
-            <div id="store-menu" class="hidden full-screen-menu">
-                <button id="close-store" class="close-btn">X</button>
-                <h2>Loja de Macaicos</h2>
-                <div id="store-categories">
-                    <!-- Categorias (cards) serão inseridas via JS -->
-                </div>
-            </div>
-
-            <div class="sidebar-left">
-                <div class="banana">
-                    <img src="gifs/banana-normal.gif" alt="">
-                    <!-- <img src="gifs/banana.gif" alt=""> -->
-                    <div id="banana-count">0</div>
-
-                </div>
-                <!-- Aqui você pode colocar outros coletáveis/multiplicadores -->
-            </div>
-
-            <div class="main-center">
-                <button id="banana">
-                    <!-- <img src="gifs/banana.gif" alt="Banana"> -->
-                    <img src="gifs/banana-normal.gif" alt="">
-                </button>
-
-                <div id="banana-info">
-                    <div id="cps-info"></div>
-                    <div id="bps-info"></div>
+                <div class="ui-config">
+                    <button id="toggle-config" data-target="menu-config" class="btn-menu"></button>
                 </div>
 
-            </div>
+                <div class="menu">
+                    <button id="toggle-achievements" data-target="menu-achievements"
+                        class="locked btn menu"></button>
 
-            <div class="sidebar-right">
-                <div id="menu-upgrades">
-                    <div id="upgrade-menu" class="card"></div>
+                    <button id="toggle-newsletter" data-target="menu-newsletter"
+                        class="btn-menu"></button>
+
+                    <button id="toggle-upgrades" data-target="menu-upgrades"
+                        class="locked"></button>
+
+
+                    <button id="toggle-store" data-target="store-menu" class="btn-menu"></button>
 
                 </div>
 
-            </div>
-
-            <div class="sidebar-bottom">
-                <div id="deck-container" class="deck-grid hidden-grid">
-                    <div class="deck-slot">Vazio</div>
-                    <div class="deck-slot">Vazio</div>
-                    <div class="deck-slot">Vazio</div>
-                    <div class="deck-slot">Vazio</div>
-                    <div class="deck-slot">Vazio</div>
-                    <div class="deck-slot">Vazio</div>
+                <div id="menu-config" class="hidden">
+                    <button id="reset-game">Resetar Jogo</button>
                 </div>
-            </div>
+                <div id="menu-achievements" class="hidden"></div>
+                <!-- <div id="menu-newsletter"></div> -->
+                <!-- Newsletter estilo "marquee" -->
+                <div id="newsletter" class="newsletter"></div>
 
+                <!-- Popups para mensagens normais -->
+                <div id="popup-container" class="popup-container"></div>
+
+                <!-- Loja -->
+
+                <div id="store-menu" class="hidden full-screen-store">
+                    <button id="close-store" class="close-btn">X</button>
+                    <h2>Loja de Macaicos</h2>
+                    <div id="store-categories">
+                        <!-- Categorias (cards) serão inseridas via JS -->
+                    </div>
+                </div>
+
+                <div class="sidebar-left">
+                    <div class="banana">
+                        <img src="gifs/banana-normal.gif" alt="">
+                        <!-- <img src="gifs/banana.gif" alt=""> -->
+                        <div id="banana-count">0</div>
+
+                    </div>
+                    <!-- Aqui você pode colocar outros coletáveis/multiplicadores -->
+                </div>
+
+                <div class="main-center">
+                    <button id="banana">
+                        <!-- <img src="gifs/banana.gif" alt="Banana"> -->
+                        <img src="gifs/banana-normal.gif" alt="">
+                    </button>
+
+                    <div id="banana-info">
+                        <div id="cps-info"></div>
+                        <div id="bps-info"></div>
+                    </div>
+
+                </div>
+
+                <div class="sidebar-right">
+                    <div id="menu-upgrades">
+                        <div id="upgrade-menu" class="card"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="sidebar-bottom">
+                    <div id="deck-container" class="deck-grid hidden-grid">
+                        <div class="deck-slot">Vazio</div>
+                        <div class="deck-slot">Vazio</div>
+                        <div class="deck-slot">Vazio</div>
+                        <div class="deck-slot">Vazio</div>
+                        <div class="deck-slot">Vazio</div>
+                        <div class="deck-slot">Vazio</div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 

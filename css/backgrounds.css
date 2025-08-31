@@ -1,0 +1,8 @@
+.scenario {
+    position: fixed;
+    z-index: -1;
+}
+
+.scenario img {
+    width: 100%;
+}

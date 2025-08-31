@@ -1,0 +1,16 @@
+
+        /* =====================
+   UTILIDADES
+===================== */
+        .hidden {
+            visibility: hidden;
+            opacity: 0;
+            overflow: hidden;
+            transform: translate(0, -50px);
+            transition: transform .2s ease-in-out, opacity .4s ease-in-out;
+            pointer-events: none;
+        }
+
+        .hidden-grid {
+            display: none;
+        }

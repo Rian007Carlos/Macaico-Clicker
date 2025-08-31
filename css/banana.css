@@ -1,0 +1,31 @@
+#banana {
+    background: transparent;
+    border: none;
+    height: 50%;
+}
+
+#banana img,
+.banana img {
+    display: block;
+    height: 100%;
+}
+
+#banana-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.3em;
+}
+
+#banana-count {
+    font-size: 3em;
+
+}
+
+.banana img {
+    width: auto;
+    height: 100px;
+}
+
+.banana {
+    align-items: center;
+}

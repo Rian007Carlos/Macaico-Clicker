@@ -1,0 +1,26 @@
+  #toggle-config {
+            font-size: 1em;
+        }
+
+        #toggle-store {
+            background-image: url(../assets/icons/store.png);
+            background-size: 250%;
+
+        }
+
+        #toggle-config {
+            background-image: url(../assets/icons/settings2.png);
+            background-position: center;
+            background-size: 150%;
+        }
+
+        .btn-menu {
+            height: 50px;
+            aspect-ratio: 1;
+            border-radius: 30%;
+            background-position: center;
+        }
+
+        #toggle-store img {
+            display: block;
+        }

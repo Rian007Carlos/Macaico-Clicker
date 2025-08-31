@@ -1,0 +1,16 @@
+ .deck-slot {
+    /* background-color: #f0e68c; */
+    background-image: url(../assets/icons/card.png);
+    background-size: 300%;
+    background-position: center;
+    background-clip: border-box;
+    border: 5px solid #8b461b83;
+    border-radius: 8px;
+    width: 130px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}

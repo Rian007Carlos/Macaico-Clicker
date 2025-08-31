@@ -1,0 +1,79 @@
+ #upgrade-menu {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 1em;
+    position: relative;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#upgrade-menu span {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(47, 47, 84);
+    color: white;
+}
+
+
+#upgrade-menu .upgrade-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    justify-content: space-between;
+    padding: 1em;
+    font-size: 0.8em;
+    border: 5px solid rgb(159, 100, 236);
+    border-radius: 10px;
+    background-image: url(assets/epic.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Rubik Bubbles", system-ui;
+}
+
+.upgrade-card>* {
+    font-size: 1.4em;
+}
+
+
+.card {
+    margin: 0 auto;
+    justify-content: center;
+    position: relative;
+}
+
+.card p {
+    font-size: 2em;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.upgrade-info:first-child {
+    color: rgb(217, 220, 72);
+}
+
+.upgrade-description {
+    color: #ff924c;
+}
+
+.upgrade-card button,
+#upgrade-menu button,
+button {
+    background-color: #eece02;
+    border-radius: 8px;
+    border: none;
+    font-size: 1em;
+    width: fit-content;
+    padding: 1em;
+    color: rgb(0, 0, 0);
+}
+
+.upgrade-card button {
+    width: 25%;
+}
+
+#upgrade-menu .upgrade-card button:disabled {
+    background-color: #ff595fe8;
+    cursor: not-allowed;
+}
