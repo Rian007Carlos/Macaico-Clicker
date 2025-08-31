@@ -40,46 +40,14 @@
         <div class="monitor-container">
 
             <div class="grid-container">
-                <div class="game-title">Macaico Clicker</div>
+                <div class="header">
+                    <div class="game-title">Macaico Clicker</div>
 
-                <div class="ui-config">
-                    <button id="toggle-config" data-target="menu-config" class="btn-menu"></button>
-                </div>
-
-                <div class="menu">
-                    <button id="toggle-achievements" data-target="menu-achievements"
-                        class="locked btn menu"></button>
-
-                    <button id="toggle-newsletter" data-target="menu-newsletter"
-                        class="btn-menu"></button>
-
-                    <button id="toggle-upgrades" data-target="menu-upgrades"
-                        class="locked"></button>
-
-
-                    <button id="toggle-store" data-target="store-menu" class="btn-menu"></button>
-
-                </div>
-
-                <div id="menu-config" class="hidden">
-                    <button id="reset-game">Resetar Jogo</button>
-                </div>
-                <div id="menu-achievements" class="hidden"></div>
-                <!-- <div id="menu-newsletter"></div> -->
-                <!-- Newsletter estilo "marquee" -->
-                <div id="newsletter" class="newsletter"></div>
-
-                <!-- Popups para mensagens normais -->
-                <div id="popup-container" class="popup-container"></div>
-
-                <!-- Loja -->
-
-                <div id="store-menu" class="hidden full-screen-store">
-                    <button id="close-store" class="close-btn">X</button>
-                    <h2>Loja de Macaicos</h2>
-                    <div id="store-categories">
-                        <!-- Categorias (cards) serão inseridas via JS -->
+                    <div class="ui-config">
+                        <button id="toggle-config" data-target="menu-config"
+                            class="btn-menu"></button>
                     </div>
+
                 </div>
 
                 <div class="sidebar-left">
@@ -94,7 +62,6 @@
 
                 <div class="main-center">
                     <button id="banana">
-                        <!-- <img src="gifs/banana.gif" alt="Banana"> -->
                         <img src="gifs/banana-normal.gif" alt="">
                     </button>
 
@@ -106,15 +73,30 @@
                 </div>
 
                 <div class="sidebar-right">
-                    <div id="menu-upgrades">
-                        <div id="upgrade-menu" class="card"></div>
+                    <div class="menu">
+                        <button id="toggle-achievements" data-target="menu-achievements"
+                            class="locked btn-menu"></button>
+
+                        <button id="toggle-newsletter" data-target="menu-newsletter"
+                            class="btn-menu"></button>
+
+                        <button id="toggle-upgrades" data-target="menu-upgrades"
+                            class="locked btn-menu"></button>
+
+
+                        <button id="toggle-store" data-target="store-menu"
+                            class="btn-menu"></button>
 
                     </div>
 
                 </div>
 
                 <div class="sidebar-bottom">
-                    <div id="deck-container" class="deck-grid hidden-grid">
+                    <div id="newsletter" class="newsletter"></div>
+                </div>
+
+                <div class="deck-container">
+                    <div id="deck" class="deck-grid hidden-grid">
                         <div class="deck-slot">Vazio</div>
                         <div class="deck-slot">Vazio</div>
                         <div class="deck-slot">Vazio</div>
@@ -124,7 +106,43 @@
                     </div>
                 </div>
 
+                <div class="floatElements">
+
+                    <!-- MENU SETTINGS -->
+                    <div id="menu-config" class="hidden">
+                        <button id="load-game" class="settings-option">Carregar</button>
+                        <button id="save-game" class="settings-option">Salvar </button>
+                        <button id="reset-game" class="settings-option">Resetar</button>
+                        <button id="setting-game" class="settings-option">Configurações</button>
+                    </div>
+
+                    <!-- ACHIEVEMENTS -->
+                    <div id="menu-achievements" class="hidden"></div>
+
+                    <!-- STORE -->
+                    <div id="store-menu" class="hidden full-screen-store">
+                        <button id="close-store" class="close-btn">X</button>
+                        <h2>Loja de Macaicos</h2>
+                        <div id="store-categories">
+                            <!-- Categorias (cards) serão inseridas via JS -->
+                        </div>
+                    </div>
+
+                    <!-- UPGRADES -->
+                    <div id="menu-upgrades">
+                        <div id="upgrade-menu" class="card"></div>
+
+                    </div>
+
+                    <!-- POPUP -->
+                    <div id="popup-container" class="popup-container"></div>
+
+                </div>
+
             </div>
+
+
+
         </div>
     </div>
 

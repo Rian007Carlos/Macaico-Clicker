@@ -1,7 +1,7 @@
 #banana {
     background: transparent;
     border: none;
-    height: 50%;
+    height: 100%;
 }
 
 #banana img,
@@ -28,4 +28,5 @@
 
 .banana {
     align-items: center;
+    position: fixed;
 }

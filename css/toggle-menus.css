@@ -1,26 +1,46 @@
-  #toggle-config {
-            font-size: 1em;
-        }
+#toggle-config {
+        font-size: 1em;
+    }
 
-        #toggle-store {
-            background-image: url(../assets/icons/store.png);
-            background-size: 250%;
+#toggle-store {
+    background-image: url(../assets/icons/store.png);
+    background-size: 180%;
+    background-position: center;
 
-        }
+}
 
-        #toggle-config {
-            background-image: url(../assets/icons/settings2.png);
-            background-position: center;
-            background-size: 150%;
-        }
+#toggle-config {
+    background-image: url(../assets/icons/settings2.png);
+    background-position: center;
+    background-size: 150%;
+}
 
-        .btn-menu {
-            height: 50px;
-            aspect-ratio: 1;
-            border-radius: 30%;
-            background-position: center;
-        }
+#toggle-upgrades {
+    background-image: url(../assets/icons/upgrade.png);
+    background-position: center;
+}
 
-        #toggle-store img {
-            display: block;
-        }
+#toggle-achievements {
+    background-image: url(../assets/icons/achievements.png);
+    background-size: 180%;
+    background-position: center;
+}
+
+
+#toggle-store img {
+    display: block;
+}
+
+#toggle-newsletter {
+    background-image: url(../assets/icons/newsletter.png);
+    background-size: 180%;
+    background-position: center;
+}
+
+.btn-menu {
+    height: 90px;
+    aspect-ratio: 1;
+    border-radius: 30%;
+    background-position: center;
+    background-size: 180%;
+}

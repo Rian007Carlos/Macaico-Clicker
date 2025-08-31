@@ -16,7 +16,7 @@ let deckDesbloqueado = false;
 
 const Deck = {
     render() {
-        const container = document.getElementById("deck-container");
+        const container = document.getElementById("deck");
         if (!container) return;
         container.innerHTML = "";
         for (let i = 0; i < maxDeckSlots; i++) {
@@ -28,6 +28,7 @@ const Deck = {
         }
     },
     addMacaico(macaico) {
+
         if (deckJogador.length < maxDeckSlots) {
             deckJogador.push(macaico);
         } else {
@@ -35,26 +36,26 @@ const Deck = {
         }
         this.render();
     },
-    syncUI() {
-        const deckEl = document.getElementById("deck-container");
-        if (!deckEl) return;
-        deckEl.classList.toggle("hidden-grid", !deckDesbloqueado);
+    // syncUI() {
+    //     const deckEl = document.getElementById("deck");
+    //     if (!deckEl) return;
+    //     deckEl.classList.toggle("hidden-grid", !deckDesbloqueado);
 
-        const btn = document.getElementById("toggle-upgrades");
-        const upgradeMenu = document.getElementById("upgrade-menu");
-        if (deckDesbloqueado) {
-            btn.classList.remove("locked");
-            upgradeMenu.classList.add("hidden");
-        } else {
-            btn.classList.add("locked");
-            upgradeMenu.classList.add("hidden");
-        }
-    }
+    //     const btn = document.getElementById("toggle-upgrades");
+    //     const upgradeMenu = document.getElementById("upgrade-menu");
+    //     if (player.bananas >= 100) {
+    //         btn.classList.remove("locked");
+    //         upgradeMenu.classList.add("hidden");
+    //     } else {
+    //         btn.classList.add("locked");
+    //         upgradeMenu.classList.add("hidden");
+    //     }
+    // }
 };
 
 function checarDesbloqueioDeck() {
 
-    if (!deckDesbloqueado && player.bananas >= 2) {
+    if (!deckDesbloqueado && player.bananas >= 100000000) {
         deckDesbloqueado = true;
         addNewsletter("Parabéns! Você desbloqueou seu deck de macaicos. Compre seu primeiro amigo primata!")
 
@@ -67,7 +68,7 @@ function checarDesbloqueioDeck() {
 }
 
 function syncDeckVisibility() {
-    const deckEl = document.getElementById("deck-container");
+    const deckEl = document.getElementById("deck");
     if (!deckEl) return;
 
     if (deckDesbloqueado) {
@@ -84,10 +85,13 @@ function syncUpgradeButton() {
     const btn = document.getElementById("toggle-upgrades");
     const upgradeMenu = document.getElementById("upgrade-menu");
 
-    if (deckDesbloqueado) {
+    if (player.bananas >= 10) {
         btn.classList.remove("locked");   // habilitado
         // Mantém o menu FECHADO até o jogador clicar:
-        upgradeMenu.classList.add("hidden");
+        // upgradeMenu.classList.add("hidden");
+        addNewsletter("Parabéns, você desbloqueou o menu Upgrades! Compre Seu primeiro, macaico para ajudar você a conseguir bananas sem esforço!");
+        renderNewsletter();
+
     } else {
         btn.classList.add("locked");      // desabilitado visualmente
         upgradeMenu.classList.add("hidden"); // garante fechado quando bloqueado
@@ -112,6 +116,20 @@ const macaicoDescriptions = {
 };
 
 // ===================== UPGRADES =====================
+
+const UpgradeActions = {
+    comprarPrimeiroMacaico: () => {
+        addNewsletter("Um pequeno passo para o homem, mas um grande passo rumo ao império das bananas!", "normal");
+        // aqui no futuro dá pra chamar conquista ou liberar menu
+    },
+    desbloquearMinas: () => {
+        addNewsletter("Minas desbloqueado! Agora é possível minerar Bananas Prismáticas.");
+    },
+    desbloquearLaboratorio: () => {
+        addNewsletter("Laboratório desbloqueado! Pesquisas de bananas disponíveis.");
+    }
+};
+
 class Upgrade {
     constructor(name, bps, cost, baseEffect, spectialThresholds = []) {
         this.name = name;
@@ -162,6 +180,27 @@ class Upgrade {
 }
 
 
+const upgrades = [
+    //(name, bps, cost, baseEffect)
+    new Upgrade("Macaico da Selva", 1, 10, 1, [{ value: 1, triggered: false, action: UpgradeActions.comprarPrimeiroMacaico }]),
+
+    new Upgrade("Macaico Bombado", 50, 100, 5),
+
+    new Upgrade("Macaico Mineiro", 100, 1500, 10, [{ value: 1, triggered: false, }]),
+
+    new Upgrade("Macaico Lutador", 250, 10000, 25),
+
+    new Upgrade("Macaico Falante", 700, 100000, 70),
+
+    new Upgrade("Macaico Trader", 1500, 1000000, 150),
+
+    new Upgrade("Macaico Cientista", 3000, 50000000, 300, [{ value: 50, triggered: false, }]),
+
+    new Upgrade("Macaico Místico", 10000, 1000000000, 1000),
+]
+
+
+
 // ======= Loja de pacotes ======
 
 const Store = {
@@ -176,22 +215,27 @@ function renderStoreCategories() {
     const container = document.getElementById('store-categories');
     container.innerHTML = '';
 
-    Object.entries(shopCategories).forEach(([key, cat]) => {
-        const card = document.createElement('div');
-        card.classList.add('store-card');
-        card.innerHTML = `
+    if (!deckDesbloqueado) {
+        return
+    } else {
+
+        Object.entries(shopCategories).forEach(([key, cat]) => {
+            const card = document.createElement('div');
+            card.classList.add('store-card');
+            card.innerHTML = `
             <h3>${key.charAt(0).toUpperCase() + key.slice(1)}</h3>
             <p>Custo: ${cat.cost} bananas</p>
             <button>Comprar pacote</button>
-        `;
+            `;
 
-        card.querySelector('button').addEventListener('click', () => {
-            buyPack(key); // chama a função de compra com a raridade
-            updateBananaDisplay(); // atualiza bananas
+            card.querySelector('button').addEventListener('click', () => {
+                buyPack(key); // chama a função de compra com a raridade
+                updateBananaDisplay(); // atualiza bananas
+            });
+
+            container.appendChild(card);
         });
-
-        container.appendChild(card);
-    });
+    }
 }
 
 // Abrir/fechar loja
@@ -254,8 +298,41 @@ function showCardReveal(macaico) {
     popupContainer.appendChild(card);
 }
 
-// ======= Newsletter =======
-const funnyQueue = [];
+// const Store = {
+//     categories: {
+//         common: { cost: 100, macaicos: ["Macaico da Selva", "Macaico Bombado", "Macaico Mineiro"] },
+//         rare: { cost: 1000, macaicos: ["Macaico Lutador", "Macaico Falante"] }
+//     },
+
+//     renderCategories() {
+//         const container = document.getElementById('store-categories');
+//         container.innerHTML = '';
+//         Object.entries(this.categories).forEach(([key, cat]) => {
+//             const card = document.createElement('div');
+//             card.classList.add('store-card');
+//             card.innerHTML = `<h3>${key.charAt(0).toUpperCase() + key.slice(1)}</h3>
+//                               <p>Custo: ${cat.cost} bananas</p>
+//                               <button>Comprar pacote</button>`;
+//             card.querySelector('button').addEventListener('click', () => { this.buyPack(key); UI.updateBananaDisplay(); });
+//             container.appendChild(card);
+//         });
+//     },
+
+//     buyPack(rarity) {
+//         const pack = this.categories[rarity];
+//         if (!pack) return;
+//         if (player.bananas < pack.cost) return Newsletter.add("Bananas insuficientes!", "normal");
+
+//         player.bananas -= pack.cost;
+//         const macaico = pack.macaicos[Math.floor(Math.random() * pack.macaicos.length)];
+//         if (!player.deck[macaico]) { player.deck[macaico] = 1; Newsletter.add(`Novo macaico obtido: ${macaico}!`); }
+//         else { player.deck[macaico]++; Newsletter.add(`${macaico} já estava no deck! Contador aumentado para ${player.deck[macaico]}.`, "funny"); }
+//         UI.showCardReveal(macaico);
+//     }
+// };
+
+
+const newsletterQueue = [];
 let funnyRunning = false;
 
 function addNewsletter(message, type = "normal") {
@@ -264,6 +341,9 @@ function addNewsletter(message, type = "normal") {
         runFunnyNews();
     } else {
         // Popup normal
+        newsletterQueue.push(message);
+        renderNewsletter();
+
         const popupContainer = document.getElementById("popup-container");
         const popup = document.createElement("div");
         popup.classList.add("popup");
@@ -312,21 +392,6 @@ function renderNewsletter() {
         container.appendChild(el);
     });
 }
-
-
-
-
-const upgrades = [
-    //(name, bps, cost, baseEffect)
-    new Upgrade("Macaico da Selva", 1, 10, 1, [{ value: 1, triggered: false, action: () => addNewsletter("Você desbloqueou um macaico novo!", "normal") }]),
-    new Upgrade("Macaico Bombado", 50, 100, 5),
-    new Upgrade("Macaico Mineiro", 100, 1500, 10, [{ value: 1, triggered: false, action: () => addNewsletter("Minas desbloqueado! Agora é possível minerar Bananas Douradas.") }]),
-    new Upgrade("Macaico Lutador", 250, 10000, 25),
-    new Upgrade("Macaico Falante", 700, 100000, 70),
-    new Upgrade("Macaico Trader", 1500, 1000000, 150),
-    new Upgrade("Macaico Cientista", 3000, 50000000, 300, [{ value: 50, triggered: false, action: () => addNewsletter("Laboratório desbloqueado! Pesquisas de bananas disponíveis.") }]),
-    new Upgrade("Macaico Místico", 10000, 1000000000, 1000),
-]
 
 // ======= Pesquisa de Bananas =======
 class BananaResearch {
@@ -448,7 +513,7 @@ function renderUpgrades() {
 // ======= Funcões do Deck =======
 
 function renderDeck() {
-    const container = document.getElementById("deck-container");
+    const container = document.getElementById("deck");
     if (!container) return;
 
     container.innerHTML = "";
