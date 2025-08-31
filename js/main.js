@@ -1,9 +1,12 @@
-
-// ======= Estado do jogador =======
+// ===================== ESTADO DO JOGADOR =====================
 const player = {
     bananas: 0,
-    clickMultiplier: 1
+    prismatics: 0,
+    clickMultiplier: 1,
+    deck: {}
 };
+
+
 
 // ======= Deck do jogador =======
 
@@ -11,35 +14,43 @@ const deckJogador = [];
 const maxDeckSlots = 6;
 let deckDesbloqueado = false;
 
-function syncUpgradeButton() {
-    const btn = document.getElementById("toggle-upgrades");
-    const upgradeMenu = document.getElementById("upgrade-menu");
+const Deck = {
+    render() {
+        const container = document.getElementById("deck-container");
+        if (!container) return;
+        container.innerHTML = "";
+        for (let i = 0; i < maxDeckSlots; i++) {
+            const slot = document.createElement("div");
+            slot.classList.add("deck-slot");
+            const macaico = deckJogador[i];
+            slot.textContent = macaico ? `${macaico.name} (${macaico.raridade})` : "Vazio";
+            container.appendChild(slot);
+        }
+    },
+    addMacaico(macaico) {
+        if (deckJogador.length < maxDeckSlots) {
+            deckJogador.push(macaico);
+        } else {
+            addNewsletter("O deck está cheio! Não é possível adicionar mais macaicos.");
+        }
+        this.render();
+    },
+    syncUI() {
+        const deckEl = document.getElementById("deck-container");
+        if (!deckEl) return;
+        deckEl.classList.toggle("hidden-grid", !deckDesbloqueado);
 
-    if (deckDesbloqueado) {
-        btn.classList.remove("locked");   // habilitado
-        // Mantém o menu FECHADO até o jogador clicar:
-        upgradeMenu.classList.add("hidden");
-    } else {
-        btn.classList.add("locked");      // desabilitado visualmente
-        upgradeMenu.classList.add("hidden"); // garante fechado quando bloqueado
+        const btn = document.getElementById("toggle-upgrades");
+        const upgradeMenu = document.getElementById("upgrade-menu");
+        if (deckDesbloqueado) {
+            btn.classList.remove("locked");
+            upgradeMenu.classList.add("hidden");
+        } else {
+            btn.classList.add("locked");
+            upgradeMenu.classList.add("hidden");
+        }
     }
-}
-
-function syncDeckVisibility() {
-    const deckEl = document.getElementById("deck-container");
-    if (!deckEl) return;
-
-    if (deckDesbloqueado) {
-        deckEl.classList.remove("hidden-grid"); // mostra deck
-    } else {
-        deckEl.classList.add("hidden-grid"); // esconde deck
-    }
-}
-
-function syncUIFromState() {
-    syncUpgradeButton();
-    syncDeckVisibility();
-}
+};
 
 function checarDesbloqueioDeck() {
 
@@ -55,28 +66,112 @@ function checarDesbloqueioDeck() {
 
 }
 
-// ======= Loja de pacotes ======
+function syncDeckVisibility() {
+    const deckEl = document.getElementById("deck-container");
+    if (!deckEl) return;
 
-const shopCategories = {
-    common: {
-        cost: 100,
-        macaicos: [
-            "Macaico da Selva",
-            "Macaico Bombado",
-            "Macaico Mineiro"
-        ]
-    },
-    rare: {
-        cost: 1000,
-        macaicos: [
-            "Macaico Lutador",
-            "Macaico Falante"
-        ]
+    if (deckDesbloqueado) {
+        deckEl.classList.remove("hidden-grid"); // mostra deck
+    } else {
+        deckEl.classList.add("hidden-grid"); // esconde deck
     }
-    // épico, lendário, etc depois
+}
+
+
+// ========= Função para mudar o estado do botão de trancado para ativo =========
+// DEPOIS MUDAR PARA QUE TODOS OS MENUS SEJAM ASSIM.
+function syncUpgradeButton() {
+    const btn = document.getElementById("toggle-upgrades");
+    const upgradeMenu = document.getElementById("upgrade-menu");
+
+    if (deckDesbloqueado) {
+        btn.classList.remove("locked");   // habilitado
+        // Mantém o menu FECHADO até o jogador clicar:
+        upgradeMenu.classList.add("hidden");
+    } else {
+        btn.classList.add("locked");      // desabilitado visualmente
+        upgradeMenu.classList.add("hidden"); // garante fechado quando bloqueado
+    }
+}
+
+function syncUIFromState() {
+    syncUpgradeButton();
+    syncDeckVisibility();
+}
+
+// ===================== MACAICOS =====================
+const macaicoDescriptions = {
+    "Macaico da Selva": "Macaico comum",
+    "Macaico Bombado": "Consegue transportar mais bananas do que um Macaico comum.",
+    "Macaico Mineiro": "Trabalha nas minas de Banana em busca de bananas de ouro.",
+    "Macaico Lutador": "Luta em ringues de alto desempenho para ganhar um monte de bananas.",
+    "Macaico Falante": "Diferente de todos os outros. Sua primeira palavra foi 'NÃO'",
+    "Macaico Trader": "Vê gráficos subir e descer. Sabe a hora certa de comprar bananas, fazendo assim um lucro bem alto.",
+    "Macaico Cientista": "Faz experimentos a nível molecular para descobrir como tirar o melhor das bananas.",
+    "Macaico Místico": "Não se sabe ao certo de onde ele surgiu e nem como ele consegue bananas. Mas hora ou outra ele sempre aparece com uma quantidade Exorbitante de bananas."
 };
 
+// ===================== UPGRADES =====================
+class Upgrade {
+    constructor(name, bps, cost, baseEffect, spectialThresholds = []) {
+        this.name = name;
+        this.bps = bps;
+        this.amount = 0;
+        this.baseCost = cost;
+        this.cost = cost;
+        this.baseEffect = baseEffect;
+        this.description = macaicoDescriptions[name];
+        this.spectialThresholds = spectialThresholds
+
+    }
+
+    getCurrentBPS() {
+        return this.bps * this.amount;
+    };
+
+    getDescription() {
+        return this.description;
+    };
+
+    buy(player) {
+        if (player.bananas >= this.cost) {
+            player.bananas -= this.cost;
+            this.amount++;
+            player.clickMultiplier += this.baseEffect
+
+            if (deckDesbloqueado) {
+                adicionarMacaicoAodeck(this);
+            }
+            this.cost = Math.floor(this.baseCost * Math.pow(1.3, this.amount));
+            this.checkTresholds();
+            saveGame();
+            return true;
+        }
+
+        return false;
+    };
+
+    checkTresholds() {
+        this.spectialThresholds.forEach(th => {
+            if (this.amount >= th.value && !th.triggered) {
+                th.triggered = true
+                th.action()
+            }
+        })
+    }
+}
+
+
 // ======= Loja de pacotes ======
+
+const Store = {
+    categories: {
+        common: { cost: 100, macaicos: ["Macaico da Selva", "Macaico Bombado", "Macaico Mineiro"] },
+        uncommon: { cost: 1000, macaicos: ["Macaico Lutador", "Macaico Falante"] }
+    },
+
+};
+
 function renderStoreCategories() {
     const container = document.getElementById('store-categories');
     container.innerHTML = '';
@@ -90,12 +185,12 @@ function renderStoreCategories() {
             <button>Comprar pacote</button>
         `;
 
-        container.appendChild(card);
-
         card.querySelector('button').addEventListener('click', () => {
             buyPack(key); // chama a função de compra com a raridade
             updateBananaDisplay(); // atualiza bananas
         });
+
+        container.appendChild(card);
     });
 }
 
@@ -116,7 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Todos os outros listeners que dependem do DOM também podem ficar aqui
 });
-
 
 function buyPack(rarity) {
     const pack = shopCategories[rarity];
@@ -158,21 +252,6 @@ function showCardReveal(macaico) {
     `;
 
     popupContainer.appendChild(card);
-}
-
-
-
-// ======= Descrição dos Macaicos ======
-
-const macaicoDescriptions = {
-    "Macaico da Selva": "Macaico comum",
-    "Macaico Bombado": "Consegue transportar mais bananas do que um Macaico comum.",
-    "Macaico Mineiro": "Trabalha nas minas de Banana em busca de bananas de ouro.",
-    "Macaico Lutador": "Luta em ringues de alto desempenho para ganhar um monte de bananas.",
-    "Macaico Falante": "Diferente de todos os outros. Sua primeira palavra foi 'NÃO'",
-    "Macaico Trader": "Vê gráficos subir e descer. Sabe a hora certa de comprar bananas, fazendo assim um lucro bem alto.",
-    "Macaico Cientista": "Faz experimentos a nível molecular para descobrir como tirar o melhor das bananas.",
-    "Macaico Místico": "Não se sabe ao certo de onde ele surgiu e nem como ele consegue bananas. Mas hora ou outra ele sempre aparece com uma quantidade Exorbitante de bananas."
 }
 
 // ======= Newsletter =======
@@ -235,55 +314,6 @@ function renderNewsletter() {
 }
 
 
-// ======= Classe Upgrade =======
-class Upgrade {
-    constructor(name, bps, cost, baseEffect, spectialThresholds = []) {
-        this.name = name;
-        this.bps = bps;
-        this.amount = 0;
-        this.baseCost = cost;
-        this.cost = cost;
-        this.baseEffect = baseEffect;
-        this.description = macaicoDescriptions[name];
-        this.spectialThresholds = spectialThresholds
-
-    }
-
-    getCurrentBPS() {
-        return this.bps * this.amount;
-    };
-
-    getDescription() {
-        return this.description;
-    };
-
-    buy(player) {
-        if (player.bananas >= this.cost) {
-            player.bananas -= this.cost;
-            this.amount++;
-            player.clickMultiplier += this.baseEffect
-
-            if (deckDesbloqueado) {
-                adicionarMacaicoAodeck(this);
-            }
-            this.cost = Math.floor(this.baseCost * Math.pow(1.3, this.amount));
-            this.checkTresholds();
-            saveGame();
-            return true;
-        }
-
-        return false;
-    };
-
-    checkTresholds() {
-        this.spectialThresholds.forEach(th => {
-            if (this.amount >= th.value && !th.triggered) {
-                th.triggered = true
-                th.action()
-            }
-        })
-    }
-}
 
 
 const upgrades = [
