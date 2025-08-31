@@ -86,14 +86,15 @@ function syncUpgradeButton() {
     const upgradeMenu = document.getElementById("upgrade-menu");
 
     if (player.bananas >= 10) {
-        btn.classList.remove("locked");   // habilitado
+        upgradeMenu.classList.remove("locked");
+        upgradeMenu.classList.remove("hidden");// habilitado
         // Mantém o menu FECHADO até o jogador clicar:
         // upgradeMenu.classList.add("hidden");
         addNewsletter("Parabéns, você desbloqueou o menu Upgrades! Compre Seu primeiro, macaico para ajudar você a conseguir bananas sem esforço!");
         renderNewsletter();
 
     } else {
-        btn.classList.add("locked");      // desabilitado visualmente
+        upgradeMenu.classList.add("locked");      // desabilitado visualmente
         upgradeMenu.classList.add("hidden"); // garante fechado quando bloqueado
     }
 }
