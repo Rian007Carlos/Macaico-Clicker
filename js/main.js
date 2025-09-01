@@ -515,7 +515,7 @@ function renderUpgrades() {
 
 function renderDeck() {
     const container = document.getElementById("deck");
-    if (!container) return;
+ return;
 
     container.innerHTML = "";
     for (let i = 0; i < maxDeckSlots; i++) {
