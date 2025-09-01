@@ -90,7 +90,7 @@ function syncUpgradeButton() {
         upgradeMenu.classList.remove("hidden");// habilitado
         // Mantém o menu FECHADO até o jogador clicar:
         // upgradeMenu.classList.add("hidden");
-        addNewsletter("Parabéns, você desbloqueou o menu Upgrades! Compre seu primeiro macaico para ajudar você a conseguir bananas sem esforço!", "normal");
+        addNewsletter("Parabéns, você desbloqueou o menu Upgrades! Compre seu primeiro macaico para ajudar você a conseguir bananas sem esforço!");
         renderNewsletter();
 
     } else {
@@ -628,6 +628,7 @@ document.getElementById('reset-game').addEventListener('click', () => {
         localStorage.removeItem('macaicoClickerSave');
         player.bananas = 0;
         player.clickMultiplier = 1;
+        player.bananasPrismaticas = 0;
 
         upgrades.forEach(u => {
             u.amount = 0;
@@ -636,6 +637,9 @@ document.getElementById('reset-game').addEventListener('click', () => {
 
         deckJogador.length = 0;
         deckDesbloqueado = false;
+
+        upgradeMenu.classList.add = "locked";
+        upgradeMenu.classList.add = "hidden";
 
         // UI + feedback
         newsletterQueue.length = 0;
