@@ -1,13 +1,15 @@
  #upgrade-menu {
     display: flex;
+    grid-column: 4 / 8;
+    flex-wrap: wrap;
     height: 100%;
-    flex-direction: column;
     justify-content: space-around;
     gap: 1em;
     position: relative;
     margin: 0;
     box-sizing: border-box;
     z-index: 5;
+  max-width: 120rem;
 }
 
 #upgrade-menu span {
@@ -19,6 +21,7 @@
 
 
 #upgrade-menu .upgrade-card {
+    flex-basis: 30rem;
     display: flex;
     flex-direction: column;
     gap: 1em;
